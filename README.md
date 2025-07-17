@@ -6,7 +6,7 @@
 
 Сервис предсказывает цену квартиры на основе её характеристик и координат, а также выводит 95% доверительные интервалы для более точной оценки.
 
-Модели развернуты в виде веб-приложения на Hugging Face Spaces (Gradio) - https://huggingface.co/spaces/ErzhanAb/Bishkek_Real_Estate_Price_Prediction_Competition
+Модели развернуты в виде веб-приложения на [Hugging Face Spaces (Gradio)](https://huggingface.co/spaces/ErzhanAb/Bishkek_Real_Estate_Price_Prediction_Competition)
 
 ## Как готовились данные
 
