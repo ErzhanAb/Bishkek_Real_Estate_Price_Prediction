@@ -209,7 +209,6 @@ theme = gr.themes.Soft(
 )
 
 with gr.Blocks(theme=theme, css=custom_css, title="Оценка квартир в Бишкеке") as demo:
-    # --- ИЗМЕНЕНИЕ: Добавлена ссылка на GitHub ---
     gr.HTML("""
     <div style="text-align: center;">
         <h1>Прогнозирование стоимости квартиры в Бишкеке</h1>
