@@ -61,7 +61,17 @@
 
 В данных наблюдается гетероскедастичность — дисперсия ошибки меняется в зависимости от площади, количества комнат и локации.
 
-![График гетероскедастичности](heteroscedasticity.png)
+## CatBoostRegressor
+
+![CatBoost](https://raw.githubusercontent.com/ErzhanAb/Bishkek_Real_Estate_Price_Prediction/refs/heads/main/het_catboost.png)
+
+## RandomForestRegressor
+
+![RF](https://raw.githubusercontent.com/ErzhanAb/Bishkek_Real_Estate_Price_Prediction/refs/heads/main/het_rf.png)
+
+## SGDRegressor
+
+![SGD](https://raw.githubusercontent.com/ErzhanAb/Bishkek_Real_Estate_Price_Prediction/refs/heads/main/het_sgd.png)
 
 ### Как это решается:
 
