@@ -81,21 +81,28 @@
 
 ## Структура проекта
 
-- **app.py**
-- **CatBoostRegressor_model.pkl**
-- **CatBoost_lower.pkl**
-- **CatBoost_upper.pkl**
-- **RandomForestRegressor_model.pkl**
-- **SGDRegressor_model.pkl**
-- **SGD_BaggingInterval.pkl**
-- **hdbscan_model.pkl**
-- **category_options.pkl**
-- **knn_model.pkl**
-- **scaler_knn.pkl**
-- **knn_columns.pkl**
-- **y_train.pkl**
-- **requirements.txt**
-- **README.md**
+```bash
+.
+├── additional/
+│   ├── category_options.pkl
+│   └── hdbscan_model.pkl
+├── catboost/
+│   ├── CatBoostRegressor_model.pkl
+│   ├── CatBoost_lower.pkl
+│   └── CatBoost_upper.pkl
+├── knn/
+│   ├── knn_columns.pkl
+│   ├── knn_model.pkl
+│   ├── scaler_knn.pkl
+│   └── y_train.pkl
+├── rf/
+│   └── RandomForestRegressor_model.pkl
+├── sgd/
+│   ├── SGDRegressor_model.pkl
+│   └── SGD_BaggingInterval.pkl
+├── app.py
+├── README.md
+└── requirements.txt
 
 ## Как развернуть проект на Hugging Face Spaces
 
