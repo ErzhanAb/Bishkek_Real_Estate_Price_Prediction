@@ -14,6 +14,7 @@ cat_lower = joblib.load("catboost/CatBoost_lower.pkl")
 cat_upper = joblib.load("catboost/CatBoost_upper.pkl")
 
 rf_pipeline = joblib.load("rf/RandomForestRegressor_model.pkl")
+sgd_model = joblib.load("sgd/SGDRegressor_model.pkl")
 sgd_bagging = joblib.load("sgd/SGD_BaggingInterval.pkl")
 
 hdbscan_model = joblib.load("additional/hdbscan_model.pkl")
@@ -46,9 +47,9 @@ def predict_price(room_count, lat, lon, series, material, floor,
         """
 
     if not (1 <= room_count <= 20):
-        error_messages.append("<li>Количество комнат должно быть в диапазоне от 1 до 20.</li>")
+        error_messages.append("<li>Количество комнат должно быть от 1 до 20.</li>")
     if not (1 <= total_area <= 1500):
-        error_messages.append("<li>Общая площадь должна быть в диапазоне от 1 до 1500 м².</li>")
+        error_messages.append("<li>Общая площадь должна быть от 1 до 1500 м².</li>")
     if not (0 <= floor <= 40):
         error_messages.append("<li>Этаж должен быть в диапазоне от 0 до 40.</li>")
     if not (1 <= total_floors <= 40):
@@ -93,8 +94,8 @@ def predict_price(room_count, lat, lon, series, material, floor,
     lower_rf = np.percentile(preds_rf_all, 2.5)
     upper_rf = np.percentile(preds_rf_all, 97.5)
 
+    pred_sgd = sgd_model.predict(input_df)[0]
     preds_sgd_all = [est.predict(input_df)[0] for est in sgd_bagging.estimators_]
-    pred_sgd = np.mean(preds_sgd_all)
     lower_sgd = np.percentile(preds_sgd_all, 2.5)
     upper_sgd = np.percentile(preds_sgd_all, 97.5)
 
@@ -173,7 +174,7 @@ def predict_price(room_count, lat, lon, series, material, floor,
                 <div class="interval"><span class="label">95% эмпирический интервал:</span><span class="interval-value">{format_price(lower_rf)} $ – {format_price(upper_rf)} $</span></div>
             </div>
             <div class="result-card">
-                 <div class="card-header"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path><path d="m15 5 3 3"></path><path d="M14.5 11.5 16 13"></path><path d="M7.5 4.5 9 6"></path><path d="m14 10 1-1"></path><path d="m5 13 1-1"></path></svg><h3>SGD Bagging</h3></div>
+                 <div class="card-header"><svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"></path><path d="m15 5 3 3"></path><path d="M14.5 11.5 16 13"></path><path d="M7.5 4.5 9 6"></path><path d="m14 10 1-1"></path><path d="m5 13 1-1"></path></svg><h3>SGD Regressor</h3></div>
                 <p class="value">{format_price(pred_sgd)} $</p>
                 <div class="interval"><span class="label">95% эмпирический интервал:</span><span class="interval-value">{format_price(lower_sgd)} $ – {format_price(upper_sgd)} $</span></div>
             </div>
