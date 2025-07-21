@@ -103,6 +103,7 @@
 ├── app.py
 ├── README.md
 └── requirements.txt
+```
 
 ## Как развернуть проект на Hugging Face Spaces
 
