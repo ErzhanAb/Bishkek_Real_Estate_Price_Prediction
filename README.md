@@ -63,15 +63,15 @@
 
 ## CatBoostRegressor
 
-![CatBoost](https://raw.githubusercontent.com/ErzhanAb/Bishkek_Real_Estate_Price_Prediction/refs/heads/main/het_catboost.png)
+![CatBoost](https://github.com/ErzhanAb/Bishkek_Real_Estate_Price_Prediction/blob/main/images/het_catboost.png)
 
 ## RandomForestRegressor
 
-![RF](https://raw.githubusercontent.com/ErzhanAb/Bishkek_Real_Estate_Price_Prediction/refs/heads/main/het_rf.png)
+![RF](https://github.com/ErzhanAb/Bishkek_Real_Estate_Price_Prediction/blob/main/images/het_rf.png)
 
 ## SGDRegressor
 
-![SGD](https://raw.githubusercontent.com/ErzhanAb/Bishkek_Real_Estate_Price_Prediction/refs/heads/main/het_sgd.png)
+![SGD](https://github.com/ErzhanAb/Bishkek_Real_Estate_Price_Prediction/blob/main/images/het_sgd.png)
 
 ### Как это решается:
 
