@@ -1,4 +1,6 @@
 import base64
+import os
+import requests
 from io import BytesIO
 
 import gradio as gr
@@ -9,21 +11,33 @@ import numpy as np
 import pandas as pd
 
 
-catboost_model = joblib.load("catboost/CatBoostRegressor_model.pkl")
-cat_lower = joblib.load("catboost/CatBoost_lower.pkl")
-cat_upper = joblib.load("catboost/CatBoost_upper.pkl")
+def load_model_from_secret(secret_name):
+    url = os.environ.get(secret_name)
+    if url is None:
+        raise ValueError(f"Секрет {secret_name} не найден!")
+    response = requests.get(url)
+    if response.status_code == 200:
+        return joblib.load(BytesIO(response.content))
+    else:
+        raise Exception(f"Ошибка загрузки {url}: {response.status_code}")
 
-rf_pipeline = joblib.load("rf/RandomForestRegressor_model.pkl")
-sgd_model = joblib.load("sgd/SGDRegressor_model.pkl")
-sgd_bagging = joblib.load("sgd/SGD_BaggingInterval.pkl")
 
-hdbscan_model = joblib.load("additional/hdbscan_model.pkl")
-cat_options = joblib.load("additional/category_options.pkl")
+catboost_model = load_model_from_secret("CATBOOST_MODEL")
+cat_lower = load_model_from_secret("CAT_LOWER")
+cat_upper = load_model_from_secret("CAT_UPPER")
 
-knn_model = joblib.load("knn/knn_model.pkl")
-scaler_knn = joblib.load("knn/scaler_knn.pkl")
-knn_columns = joblib.load("knn/knn_columns.pkl")
-y_train = joblib.load("knn/y_train.pkl")
+rf_pipeline = load_model_from_secret("RF_PIPELINE")
+
+sgd_model = load_model_from_secret("SGD_MODEL")
+sgd_bagging = load_model_from_secret("SGD_BAGGING")
+
+hdbscan_model = load_model_from_secret("HDBSCAN_MODEL")
+cat_options = load_model_from_secret("CAT_OPTIONS")
+
+knn_model = load_model_from_secret("KNN_MODEL")
+scaler_knn = load_model_from_secret("SCALER_KNN")
+knn_columns = load_model_from_secret("KNN_COLUMNS")
+y_train = load_model_from_secret("Y_TRAIN")
 
 
 def predict_price(room_count, lat, lon, series, material, floor,
@@ -128,7 +142,7 @@ def predict_price(room_count, lat, lon, series, material, floor,
     fig.patch.set_alpha(0)
     ax.set_facecolor('none')
 
-    text_color = '#6b7280'
+    text_color = 'black'
     ax.tick_params(colors=text_color, labelsize=10)
     for spine in ['bottom', 'left']:
         ax.spines[spine].set_color(text_color)
@@ -216,7 +230,7 @@ custom_css = """
 .legend-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 20px; margin-top: 16px; padding: 0 10px; }
 .legend-item { display: flex; align-items: center; gap: 8px; }
 .legend-marker { width: 24px; height: 14px; flex-shrink: 0; }
-.legend-label { font-size: var(--text-sm); color: var(--body-text-color-subdued); }
+.legend-label { font-size: var(--text-sm); color: var(--body-text-color); }
 .placeholder, .error-container { padding: 40px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; }
 .placeholder svg { width: 48px; height: 48px; color: var(--body-text-color-subdued); margin-bottom: 16px; }
 .placeholder h3 { font-size: var(--text-xl); font-weight: 600; color: var(--body-text-color); margin: 0; }
@@ -314,12 +328,6 @@ with gr.Blocks(theme=theme, css=custom_css, title="Оценка квартир �
         total_floors, total_area, heating, condition
     ]
     btn.click(predict_price, inputs, output)
-
-    gr.Markdown(
-        "<p style='text-align: center; color: var(--body-text-color-subdued);'>"
-        "Система оценки работает на ансамбле моделей: "
-        "CatBoost, Random Forest и SGD.</p>"
-    )
 
 if __name__ == "__main__":
     demo.launch()
